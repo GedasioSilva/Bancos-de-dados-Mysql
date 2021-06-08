@@ -92,6 +92,57 @@ select nome_autor,sobreNome_autor from tbl_autores;
   select Nome_Autor , SobreNome_autor from tbl_autores
   order by Nome_Autor desc ;
   
+  select nome_livro,id_livro,Preco_Livro from tbl_livro
+  where Nome_Livro = "PHP";
+  
+  select nome_autor from tbl_autores
+  where id_autores = 1;
+  
+  select SobreNome_autor from tbl_autores
+  where SobreNome_autor <> 'silva';
+  
+ select * from tbl_livro
+ where id_livro >1 and Id_autor < 3;
+ 
+ select * from tbl_livro
+ where id_livro > 2 or id_autor <3;
+ 
+ select * from tbl_livro
+ where id_livro > 2 and not Id_autor < 3;
+  
+  select nome_livro , id_editora from tbl_livro
+  where Id_Editora in (1,2);
+  -- Comando In serve pra Busca dentro de lista passando os paramentos (1,2);
+  
+  select ID_Autores,nome_autor from tbl_autores
+  where ID_Autores in (3,4,5);
+  
+  select ID_Autores,sobrenome_autor from tbl_autores
+  where Id_autores not in (1,2,3);
+  -- comando not in não quero os ids (1,2,3);
+  
+  select * from tbl_editoras;
+  
+  select nome_editora,id_editora from tbl_editoras
+  where Nome_Editora = ("Nuuvem");
+  
+  select nome_livro,id_editora from tbl_livro
+  where Id_Editora in (
+  select Id_Editora 
+  from tbl_editoras
+  where Nome_Editora = 'Nuuvem'
+  );
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
 
 
