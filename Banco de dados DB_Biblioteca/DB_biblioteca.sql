@@ -133,12 +133,60 @@ select nome_autor,sobreNome_autor from tbl_autores;
   where Nome_Editora = 'Nuuvem'
   );
   
+  select * from tbl_teste_incremento;
   
+  delete from tbl_teste_incremento where codigo = 3 limit 1;
   
+  truncate  table tbl_teste_incremento;
   
+  select nome_livro
+  as livros
+  from tbl_livro;
+  -- comando as Pra alterar o nome da coluna quando for consultar;
   
+  select id_livro
+  as Identidade,Nome_Livro as vulgo 
+  from tbl_livro;
   
-  
+  select preco_livro as Taporra , data_pub as nascimento 
+  from tbl_livro;
+ 
+ select * from tbl_livro;
+ 
+ select count(*) from tbl_autores;
+ -- comando count pra consulta quantos registros tem na tabela
+ 
+ select count(*) from tbl_editoras;
+ 
+ select count(Distinct id_autor) from tbl_livro;
+ -- count( Distinct id_autor) from tbl_livro é pra saber quantos id_autor tem na tabela livro;
+ 
+select max(preco_livro) from tbl_livro;
+-- comando max pega o valor do livro mais caro;
+select max(id_livro) from tbl_livro;
+
+select min(id_livro) from tbl_livro;
+-- pega o menor valor da consulta 
+
+select min(preco_livro) from tbl_livro;
+
+select avg(preco_livro) from tbl_livro;
+-- pega a media dos valores dos livros
+
+select Sum(preco_livro) from tbl_livro;
+-- sum soma todos os precos dos livros;
+
+ rename table tbl_teste_incremento to teste_incremento;
+ -- comando pra muda o nome das tabelas ;
+ 
+ select * from teste_incremento;
+ 
+ update teste_incremento
+ set  nome = "Gedasiio" where codigo = 1;
+ -- comando pra alter os registros atualizar o nome na tabela teste incremento;
+ 
+ 
+ 
   
   
   
