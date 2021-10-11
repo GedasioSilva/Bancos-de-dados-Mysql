@@ -9,6 +9,7 @@ ISBN varchar(30) not null,
 Data_Pub Date not null,
 Preco_Livro decimal(7,2) not null
 ) default charset = "utf8";
+
 select * from tbl_livro;
 
 alter table tbl_livro
@@ -46,6 +47,7 @@ alter table tbl_livro
 add constraint fk_Id_editora
 foreign key (id_editora)
 references tbl_editoras(id_editora);
+----------------------------- Criar e adicionar chave estrangeira;
 
 
 create table if not exists tbl_teste_incremento(
@@ -70,12 +72,14 @@ drop primary key;
 
 alter table tbl_teste_incremento
 add column nascimento date;
+-- teste incremento -- -- -- -- --------------------------------------
 
+----------------------------------------------------------------------
 select * from tbl_livro;
 select nome_autor from tbl_autores;
 
 select nome_autor,sobreNome_autor from tbl_autores;
-
+----------------------------------------------------------------------
  select * from tbl_livro
  order by nome_livro ;
  -- consuta os livros na ordem alfabetica dos nomes
@@ -289,7 +293,9 @@ from vw_livroautores
 order by autor;
 -- Consultando o Views
 
-aula 33
+select * from tbl_livro
+inner join tbl_autores
+on tbl_livro.Id_autor = tbl_autores.Id_autor;
 
 
  
