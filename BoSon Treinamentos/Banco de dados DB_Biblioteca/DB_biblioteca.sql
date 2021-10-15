@@ -95,6 +95,7 @@ select nome_autor,sobreNome_autor from tbl_autores;
   
   select Nome_Autor , SobreNome_autor from tbl_autores
   order by Nome_Autor desc ;
+  -------------------------------
   
   select nome_livro,id_livro,Preco_Livro from tbl_livro
   where Nome_Livro = "PHP";
