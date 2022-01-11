@@ -3,6 +3,8 @@ default charset = "utf8"
 default collate utf8_general_ci;
 
 use db_escolar;
+/* -- criação de tabelas 
+
 
 create table if not exists tbl_Sala(
 id_sala smallint primary key not null,
@@ -23,7 +25,9 @@ sexo_prof enum('M','F'),
 data_nasc date not null,
 Mat_prof varchar (55) not null
 ) default charset = "utf8";
+*/
 
+/* -- adicionar chaves estrangeiras 
 alter table tbl_sala
 add constraint fk_id_prof 
 foreign key (id_prof)
@@ -40,7 +44,9 @@ add constraint fk_id_aluno
 foreign key (id_aluno)
 references tbl_aluno (id_aluno);
 
+*/
 
+/* -- Comando insert into 
 insert into tbl_professor (nome_prof,sexo_prof,data_nasc,mat_prof)
 values ("Camila Silva","F",19911217,"hISTORIA");
 
@@ -61,7 +67,9 @@ values ("Isac","M",19990830);
 
 insert into tbl_sala (id_sala,qtdaluno,id_prof,id_aluno) values (15,45,1,1);
 
+*/
 
+/* -- consulta simples
 select nome_aluno from tbl_aluno;
 
 select id_sala , qtdaluno from tbl_sala;
@@ -74,7 +82,8 @@ select * from  tbl_SALA;
 
 select nome_prof , sexo_prof from tbl_professor;
 
--- Consultas com ordem By-- começo 
+*/
+/*-- Consultas com ordem By-- começo 
 
 select nome_prof , id_prof from tbl_professor 
 order by nome_prof;
@@ -92,8 +101,9 @@ select id_aluno,sexo_aluno , nome_aluno from tbl_aluno
 order by id_aluno;
 
 -- fim consulta com order by 
--- começo consultas com where e 
+*/ 
 
+/* -- começo consultas com where e 
 select id_prof , id_aluno from tbl_sala
 where id_sala = 9 ;
 
@@ -138,13 +148,21 @@ where id_sala not in (1,9);
 
 select id_prof , id_aluno from tbl_sala
 where id_sala 
-
+*/
  
+select qtdaluno
+as qtAluno
+from tbl_sala;
+
+select sexo_aluno
+as sex_Aluno
+from tbl_aluno;
+
+
 
 
 
   
-  
-
+ 
  
   

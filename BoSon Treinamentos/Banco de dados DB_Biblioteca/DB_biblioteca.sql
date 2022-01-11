@@ -131,6 +131,7 @@ select nome_autor,sobreNome_autor from tbl_autores;
   select nome_editora,id_editora from tbl_editoras
   where Nome_Editora = ("Nuuvem");
   
+  
   select nome_livro,id_editora from tbl_livro
   where Id_Editora in (
   select Id_Editora 
