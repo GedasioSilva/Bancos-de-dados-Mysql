@@ -7,7 +7,7 @@ Id_livro smallint auto_increment primary key,
 Nome_Livro varchar (50) not null,
 ISBN varchar(30) not null,
 Data_Pub Date not null,
-Preco_Livro decimal(7,2) not null
+Preco_Livro decimal(7,2) not null 
 ) default charset = "utf8";
 
 select * from tbl_livro;
@@ -297,7 +297,194 @@ order by autor;
 
 select * from tbl_livro
 inner join tbl_autores
-on tbl_livro.Id_autor = tbl_autores.Id_autor;
+on tbl_livro.Id_autor = tbl_autores.ID_Autores;
+-- se algums livros não forem publicado eles não aparecem 
 
 
+select * from tbl_autores
+left join tbl_livro
+on tbl_livro.Id_autor = tbl_autores.ID_Autores;
+-- consulta todos os dados de autores mesmo que não tenha conecxao com tbl_livro
+
+select * from tbl_autores
+left join tbl_livro
+on tbl_livro.Id_autor = tbl_autores.ID_Autores
+where tbl_livro.Id_autor is null;
+-- consulta nas tabela autores onde os autores não tem id na tabela livro
+
+select * from tbl_livro as li
+right join tbl_editoras as ed
+ON Li.ID_Editora = ed.ID_Editora;
+-- vai pega a editora que tenha id na tabela livro tendo livro publicado ou não 
+
+select concat('Gedasio' , 'Da Silva') as 'Meu Nome'; -- concatenando Stringues 
+
+select concat(nome_autor, ' ', sobreNome_autor) as 'Nome Autor Completo' from tbl_autores; -- concatenando os nomes dos autores 
+
+select concat('Eu gosto do Livro', nome_livro)
+from tbl_livro where Id_autor = 1;
+
+select nome_livro,preco_livro * 5 as 'Preço de 5 Livros'
+from tbl_livro where id_livro = 1;
+
+select nome_livro,preco_livro * 5 as 'Preço de 5 Livros'
+from tbl_Livro;
+
+select nome_livro , CEILING(preco_livro / 2)  as 'Preço com 50% de desconto ' from tbl_livro;
+
+select ceiling(10 / 3);
+select 10 mod 3;
+select CEILING(sqrt(3));
  
+/* Funções matematicas
+CEILING() ARREDONDA PRA CIMA
+FLOOR() ARREDONDA PRA BAIXO
+PI() RETORNA O VALOR DE PI
+POW(X,Y) RETORNA X ELEVADO A Y
+SQRT()  RETORNA A RAIZ QUADRADA
+SIN() RETORNA O SENO DE UM NÚMERO DADO EM RADIANOS
+HEX() Retorna a representação hexadecimal de um valor decimal 
+
+*/
+
+/*Função Não funcionou
+
+select NOME_LIVRO, fn_teste(preco_livro,6) as 'Preço de 6 Unidade'
+from tbl_livro
+where Id_livro = 2
+
+drop function fn_teste;
+*/
+
+/*Stored Procedures
+
+-- Criando Procedimento:
+create procedure varPreço (VarLivro smallint)
+select concat('O Preço e ' , preco_livro) as preço 
+from tbl_livro
+where Id_livro = varLivro;
+
+-- invocando O Procedimento;
+call varPreço(3);
+
+-- Excluindo Procedimento;
+drop procedure varPreço;
+
+*/
+
+-- Estudar função pq aqui esta dando Errado
+
+/* Stored Procedures com Begin e  end
+
+DELIMITER //
+CREATE PROCEDURE VerPreço (VarLivro smallint)
+BEGIN
+	Select concat('O preço  ' , preco_livro) as preço
+	from tbl_livro
+	where id_livro = VarLivro;
+	select 'Procedimento Executado com sucesso!';
+END//
+DELIMITER ;
+
+call VerPreço(3); -- o id do livro
+
+*/
+
+-- PELO NOME DA EDITORA PEGAR O NOME DO LIVRO SEM EDITAR NO ARMAZENAMENTO
+
+/*
+DELIMITER //
+create procedure editora_livro (IN editora VARCHAR(50))
+BEGIN
+	select L.nome_livro , E.nome_Editora
+    from tbl_livro as L
+    Inner join tbl_editoras As E
+    on L.ID_Editora = E.ID_Editora
+    where E.Nome_Editora = editora;
+END//
+DELIMITER ;
+
+CALL editora_livro('shell');
+
+SET @minhaeditora = 'shell'; -- aperta as duas linhas pra criar depois só a segunda pra exercutar
+CALL editora_livro(@minhaeditora);
+
+*/
+
+ -- outro procedimento
+ 
+ /*
+  DELIMITER // 
+ create procedure aumenta_preco(IN codigo INT,taxa Decimal(10,2))
+ BEGIN 
+	update tbl_livro
+    set preco_livro = tbl_livro.Preco_Livro + tbl_livro.Preco_Livro * taxa /100
+    where id_livro = codigo;
+ END//
+ DELIMITER 
+ 
+SET @livro = 4; -- ID ONDE O PREÇO VAI SUBIR
+SET @aumento = 20; -- O QUANTO VAI AUMENTAR 
+CALL aumenta_preco(@livro, @aumento); -- DEPOIS CLICA AQUI PRA CONSULTAR
+
+select * from tbl_livro where Id_livro = '4';
+ */
+
+/*
+DELIMITER //
+CREATE procedure teste_out (IN id Int, out livro varchar(50))
+BEGIN 
+	select nome_livro
+    into livro
+    from tbl_livro
+    where id_livro = id;
+END //
+DELIMITER ;
+
+CALL teste_out(3,@livro);
+select @livro;
+
+select * from tbl_livro where Id_livro = '3';
+*/
+
+/*
+DELIMITER //
+CREATE PROCEDURE aumento (INOUT valor Decimal(10,2) , taxa decimal (10,2))
+Begin
+	set valor = valor + valor * taxa/100;
+END//
+DELIMITER ;
+    
+set @valorinicial = 20.00;
+select @valorinicial;
+
+CALL aumento(@valorinicial , 15.00);
+*/
+
+/*-- Não ta dando certo Procedure 
+DELIMITER //
+CREATE FUNCTION calcula_desconto(livro int, desconto Decimal(10,2))
+RETURNS DECIMAL(10,2)
+BEGIN
+    DECLARE preco DECIMAL(10,2);
+    SELECT preco_livro FROM tbl_livro
+    WHERE Id_livro = livro INTO preco;
+    RETURN preco - desconto;
+END//
+DELIMITER ;
+
+SELECT * FROM tbl_livro where id_livro = 4;    
+select calcula_desconto(4,10.00);
+-- -------------------------------------------------------
+*/
+
+DELIMITER //
+CREATE function calcula_imposto(salario dec(8,2))
+returns dec(8.2)
+BEGIN 
+	declare valor_imposto dec(8,2);
+    if salario < 1000.00 then
+		set valor_imposto = 0.00;
+    elseif salario < 2000.00    
+    
+    aula 42 2:50 seg

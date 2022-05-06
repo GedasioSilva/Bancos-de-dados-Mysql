@@ -1,2 +1,2 @@
-select * from tb_cadastro;
+select * from cliente;
 
