@@ -348,13 +348,14 @@ HEX() Retorna a representação hexadecimal de um valor decimal
 */
 
 /*Função Não funcionou
-
-select NOME_LIVRO, fn_teste(preco_livro,6) as 'Preço de 6 Unidade'
-from tbl_livro
-where Id_livro = 2
+SELECT NOME_LIVRO, fn_teste(preco_livro,6) AS 'Preço de 6 Unidade'
+FROM tbl_livro
+WHERE Id_livro = 2;
 
 drop function fn_teste;
+
 */
+
 
 /*Stored Procedures
 
@@ -413,7 +414,7 @@ CALL editora_livro(@minhaeditora);
 
  -- outro procedimento
  
- /*
+ /* 
   DELIMITER // 
  create procedure aumenta_preco(IN codigo INT,taxa Decimal(10,2))
  BEGIN 
@@ -478,13 +479,130 @@ select calcula_desconto(4,10.00);
 -- -------------------------------------------------------
 */
 
+/*Comando if Não pegou
 DELIMITER //
-CREATE function calcula_imposto(salario dec(8,2))
-returns dec(8.2)
+CREATE FUNCTION calcula_imposto(salario DEC(8,2))
+returns DEC(8.2)
 BEGIN 
-	declare valor_imposto dec(8,2);
-    if salario < 1000.00 then
-		set valor_imposto = 0.00;
-    elseif salario < 2000.00    
+	DECLARE valor_imposto DEC(8,2);
+		IF salario < 1000.00 THEN
+		SET valor_imposto = 0.00;
+    ELSEIF salario < 2000.00 THEN
+		SET valor_imposto = salario * 0.15;
+    ELSEIF salario < 3000.00 THEN
+		SET valor_imposto = salario * 0.22;
+    ELSE 
+		SET valor_imposto = salario * 0.27;
+	END IF;
+    RETURN valor_imposto;
+END//
+DELIMITER ;   
+
+select calcula_imposto (850.00);
+*/
+
+/* Comando Case não pegou 
+DELIMITER //
+CREATE FUNCTION CALCULAR_IMPOSTO_CASE(SALARIO DEC(8,2))
+RETURNS DEC(8,2)
+BEGIN 
+	DECLARE VALOR_IMPOSTO DEC(8,2);
+    CASE
+	WHEN SALARIO < 1000.00 THEN
+		SET VALOR_IMPOSTO = 0.00;
+    WHEN SALARIO < 2000.00 THEN
+		SET VALOR_IMPOSTO = SALARIO * 0.15;
+    WHEN SALARIO < 3000.00 THEN
+		SET VALOR_IMPOSTO = SALARIO * 0.22;
+    ELSE 
+		SET VALOR_IMPOSTO = SALARIO * 0.27;
+	END CASE;
+    RETURN VALOR_IMPOSTO;
+END//
+DELIMITER ;   
+
+select calcula_imposto (850.00);
+*/
+
+/* LOOP 
+DELIMITER //
+CREATE PROCEDURE ACUMULA(LIMITE INT)
+BEGIN
+	DECLARE CONTADOR INT DEFAULT 0;
+    DECLARE SOMA INT DEFAULT 0;
+    LOOP_TESTE: LOOP
+		SET CONTADOR = CONTADOR + 1;
+        SET SOMA = SOMA + CONTADOR;
+        IF CONTADOR >= LIMITE THEN 
+			LEAVE LOOP_TESTE;
+        END IF;
+    END LOOP LOOP_TESTE;
+    SELECT SOMA;
+END//
+DELIMITER ;
+ 
+call ACUMULA(3);
+
+*/
+
+/* REPEAT
+DELIMITER //
+CREATE PROCEDURE ACUMULA_REPITA (LIMITE TINYINT UNSIGNED)
+MAIN: BEGIN
+	DECLARE CONTADOR TINYINT UNSIGNED DEFAULT 0;
+    DECLARE SOMA INT DEFAULT 0;
+    IF LIMITE < 1 THEN
+		SELECT 'O VALOR DEVE SER MAIOR QUE ZERO.' AS ERRO;
+        LEAVE MAIN;
+    END IF;
+    REPEAT
+		SET CONTADOR = CONTADOR + 1;
+        SET SOMA = SOMA + CONTADOR;
+	UNTIL CONTADOR >= LIMITE
+	END REPEAT;
+	SELECT SOMA;
+END//
+DELIMITER ;
     
-    aula 42 2:50 seg
+CALL ACUMULA_REPITA(10);
+CALL ACUMULA_REPITA(0);
+*/
+
+/*WHILE
+DELIMITER //
+CREATE PROCEDURE ACUMULA_WHILE (LIMITE TINYINT UNSIGNED)
+BEGIN
+	DECLARE CONTADOR TINYINT UNSIGNED DEFAULT 0;
+    DECLARE SOMA INT DEFAULT 0;
+    WHILE CONTADOR < LIMITE DO 
+		SET CONTADOR = CONTADOR + 1;
+        SET SOMA = SOMA + CONTADOR;
+    END WHILE;
+    SELECT SOMA;
+END//
+DELIMITER ;   
+
+Call ACUMULA_WHILE('5');  vai somando 1 + 2 + 3 + 4 + 5 por isso deu 15
+
+*/
+
+/*ITERATE
+*/
+
+-- AULA 47 3 MINUTOS
+DELIMITER //
+CREATE PROCEDURE ACUMULA_ITERATE (LIMITE TINYINT)
+BEGIN
+	DECLARE CONTADOR TINYINT UNSIGNED DEFAULT 0;
+    DECLARE SOMA INT UNSIGNED DEFAULT 0;
+    TESTE: LOOP
+		SET CONTADOR = CONTADOR + 1;
+        SET SOMA = SOMA + CONTADOR;
+        IF CONTADOR < LIMITE THEN
+			ITERATE TESTE;
+        END IF;
+		LEAVE TESTE;
+     END LOOP TESTE;
+     SELECT SOMA;
+END//
+DELIMITER ;
