@@ -144,6 +144,7 @@ select nome_autor,sobreNome_autor from tbl_autores;
   delete from tbl_teste_incremento where codigo = 3 limit 1;
   
   truncate  table tbl_teste_incremento;
+
   
   select nome_livro
   as livros
@@ -181,6 +182,8 @@ select avg(preco_livro) from tbl_livro;
 
 select Sum(preco_livro) from tbl_livro;
 -- sum soma todos os precos dos livros;
+
+-- ////////////////////////////////////////////////////////////////////////////////
 
  rename table tbl_teste_incremento to teste_incremento;
  -- comando pra muda o nome das tabelas ;
@@ -355,7 +358,6 @@ WHERE Id_livro = 2;
 drop function fn_teste;
 
 */
-
 
 /*Stored Procedures
 
@@ -587,9 +589,7 @@ Call ACUMULA_WHILE('5');  vai somando 1 + 2 + 3 + 4 + 5 por isso deu 15
 */
 
 /*ITERATE
-*/
 
--- AULA 47 3 MINUTOS
 DELIMITER //
 CREATE PROCEDURE ACUMULA_ITERATE (LIMITE TINYINT)
 BEGIN
@@ -606,3 +606,106 @@ BEGIN
      SELECT SOMA;
 END//
 DELIMITER ;
+
+call acumula_iterate(10);
+
+
+DELIMITER //
+CREATE PROCEDURE PARES(LIMITE TINYINT UNSIGNED)
+MAIN: BEGIN
+	DECLARE CONTADOR TINYINT DEFAULT 0;
+    MEULOOP: WHILE CONTADOR < LIMITE DO
+    SET CONTADOR = CONTADOR + 1;
+    IF MOD (CONTADOR , 2) THEN
+		ITERATE MEULOOP;
+    END IF;
+    SELECT CONCAT(CONTADOR,' É UM NÚMERO PAR') AS VALOR;
+    END WHILE;
+END//
+DELIMITER ;
+
+CALL PARES(20);    
+
+*/
+
+/* Triggers
+	CREATE TABLE PRODUTO(
+IDPRODUTO INT NOT NULL auto_increment,
+Nome_produto varchar(45) null,
+Preco_normal decimal(10,2) null,
+Preco_desconto Decimal(10,2) null,
+Primary key (idProduto));
+
+-- Trigger trabalhar junto a uma tabela 
+
+ -- tr_deconto pra mostra que é um Trigger
+ -- before tem que ser feito antes da tabela receber dados
+ 
+Create trigger tr_desconto BEFORE INSERT
+ON produto
+FOR EACH ROW 
+SET NEW.Preco_Desconto = (NEW.Preco_Normal * 0.90); -- TA calculando 10% de desconto
+-- esse triger calcula o desconto na tabela produto no campo preco desconto
+-- set ta atualizando no campo preco_desconto recebendo a operação
+insert INTO Produto (Nome_produto,Preco_normal) values ('Monitor',1.00);
+insert INTO Produto (Nome_produto,Preco_normal) values ('DVD',1.00);
+insert INTO Produto (Nome_produto,Preco_normal) values ('PENDRIVE',18.00);
+SELECT * FROM Produto;
+*/
+
+show databases;
+
+show tables;
+
+/* Campos Gerados - Colunas Calculadas 
+-- o campo num3 vai receber o campo num 1 * o campo num2;
+
+CREATE TABLE TBL_MULT(
+ID smallint primary key auto_increment,
+num1 smallint not null,
+num2 smallint not null,
+num3 smallint GENERATED ALWAYS AS (num1 * num2) virtual
+);
+
+insert into TBL_MULT (num1,num2) values (2,1),(2,2),(2,3),(2,4);
+
+select * from TBL_MULT;
+-- os valores são regados quando fazemos a consulta é num1 * num2
+
+UPDATE tbl_mult
+set num2 = 8
+where id = 2;
+
+create table tbl_vendas(
+ID_venda smallint primary key auto_increment,
+preco_produto Decimal(6,2) not null,
+qtde tinyint not null,
+desconto decimal(4,2) not null,
+preco_total Decimal(6,2) as (preco_produto * qtde * (1 - desconto / 100)) Stored
+);
+
+insert into tbl_vendas (preco_produto, qtde ,desconto) values
+(50.00,2,20),
+(65.00,3,15),
+(100.00,1,12),
+(132.00,3,18)
+ ;
+
+select * from  tbl_vendas;
+
+*/
+
+-- UNION junta um valor de uma consulta com o valor de outra Consulta
+
+select Nome_livro as Livro, preco_livro as preço,
+'Livro Caro ' Resultado
+from tbl_livro
+where Preco_Livro >= 60.00
+UNION 
+SELECT Nome_Livro Livro , preco_livro preço, 'Preço Razoável' Resultado
+from tbl_livro
+where Preco_Livro < 60.00;
+
+Aula 57 3:30 minutos;
+
+
