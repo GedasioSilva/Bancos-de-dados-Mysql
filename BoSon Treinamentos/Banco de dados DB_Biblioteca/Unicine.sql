@@ -63,6 +63,124 @@ salario_func decimal(6,2)
 
 select * from ator;
 
+select nome_ator as Nomes,Sexo as Genero,nas_ator as Dados 
+from ator order by nome_ator desc;
+
+select count(*) from ator;
+
+select nome_ator as Nome from ator 
+where nome_ator = "gedasio";
+
+select cod_ator as Codigo, Nome_ator as Nome from ator
+where Cod_ator > 1 and Cod_ator < 3;
+
+select cod_ator as Codigo, Nome_ator as Nome from ator
+where Cod_ator > 1 and not Cod_ator =  3;
+
+select cod_ator as Codigo, Nome_ator as Nome from ator
+where Cod_ator in(4,3); /* só server se tiver nesse intervalo*/
+
+select * from filme;
+
+select count(distinct cod_diretor) from diretor;
+select count(distinct cod_diretor) from filme;
+
+select max(cod_diretor) from diretor;
+select min(cod_diretor) from diretor;
+
+show  tables;
+rename table salla to Sala; /* Alterar o nome da tabela*/
+
+select * from filme;
+
+update  filme
+set Nota_IMB = 9 where cod_filme = 3;
+
+update  filme
+set Nota_IMB = 8.8 where cod_filme = 4;
+
+update  filme
+set Nota_IMB = 8 where cod_filme = 1;
+
+update  filme
+set snopise_filme = " Patrick Bateman tem uma segunda vida como um horrível assassino em série durante a noite." where cod_filme = 4;
+
+select snopise_filme from filme where cod_filme = 4;
+
+select data_estreia As Estreia, nome_filme as Nome from filme
+where Data_estreia between '2001-01-01' and '2007-12-01';
+
+select cod_ator from ator where Cod_ator
+between 3 and 5;
+
+select nome_ator as Nome from ator
+where Nome_ator like 'M%'; /* Procure na tabela ator nome de ator que começe com G e não importa o resto*/
+
+select nome_filme as Filme from filme 
+where nome_filme like 'P%';
+
+select nome_filme as Filme from filme 
+where nome_filme NOT like 'l%'; /* Nome de filme Que não começe com a letra L*/
+
+select nome_ator as Filme from ator 
+where nome_ator NOT like 'l%'; 
+
+select nome_ator as Nome from ator 
+where nome_ator  like '__d%'; /* 3 letra do nome tem um D*/
+
+select Nome_ator from ator
+where Nome_ator regexp '^[GM]';
+-- Nomes que comecem com G ou M
+
+select Nome_ator from ator
+where Nome_ator regexp '^[^GM]'; -- não começe com G ou M
+
+alter table ator
+modify column TELL smallint
+default '00';
+-- valor padrão caso nenhum dado for inserido
+
+select Cod_ator,count(*) from filme group by nome_filme;
+
+alter table filme
+add column Bilheteria smallint;
+
+update filme 
+set Bilheteria = 263
+where cod_filme = 3;
+
+select bilheteria,count(*)
+from filme
+group by cod_filme;
+
+select * from filme;
+
+create view FilmesAtor
+as select filme.nome_filme as Filme,
+ator.Nome_ator as Ator
+from filme
+inner join ator 
+on filme.cod_ator = ator.Cod_ator;
+-- Criando uma view que vai chamar na table filme o cod do ator e nome do ator 
+
+select filme,ator from FilmesAtor order by ator; -- chamando minha view 
+
+create view FilmeDiretor
+as select filme.nome_filme as Filme,
+diretor.nome_diretor as Diretor
+from filme
+inner join diretor
+on filme.cod_diretor = diretor.cod_diretor;
+
+select filme,diretor 
+from 
+filmediretor order by diretor;
+
+
+
+
+
+
 
 
 
