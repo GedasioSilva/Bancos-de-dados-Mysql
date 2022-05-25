@@ -176,6 +176,75 @@ select filme,diretor
 from 
 filmediretor order by diretor;
 
+select * from filme
+inner join diretor
+on filme.cod_diretor = diretor.cod_diretor;
+-- chama todos os dados das duas tabelas 
+
+select * from filme
+inner join ator
+on filme.Cod_ator = ator.Cod_ator;
+
+
+select * from filme 
+inner join funcionario
+on filme.cod_filme = funcionario.cod_func;
+-- traz os dados das duas tabelas mesmo não tendo conecxao;
+
+select nome_filme,bilheteria from filme
+where Bilheteria is null;
+
+select nome_filme,Nota_IMB from filme
+where Nota_IMB is null;
+-- traz na tabela filme o campo nota_imb que estão vazios e o nome do filme
+
+select bilheteria , nome_filme from filme
+inner join diretor
+on filme.cod_filme = diretor.cod_diretor;
+
+select * from filme
+right join diretor
+on filme.cod_diretor=diretor.cod_diretor;
+-- pegar o diretor tendo filme publicado ou não
+
+
+select * from tbl_livro as li
+right join tbl_editoras as ed
+ON Li.ID_Editora = ed.ID_Editora;
+-- vai pega a editora que tenha id na tabela livro tendo livro publicado ou não 
+
+select concat('Camila','silva') as 'Meu Nome completo';
+select concat(nome_diretor , '  ',nasc_diretor) as ' Dados  do  Diretor' from diretor;
+
+select concat(' O melhor Filme foi ' ,  nome_filme) as Filmes 
+from filme where cod_filme = 1;
+
+select nome_filme,bilheteria * 3 as 'Bilheteria dos filmes'
+from filme where cod_filme = 1;
+
+select bilheteria , ceiling(bilheteria/2) as 'Bilheteria do Filme dividida por 2 ' from filme;
+
+select ceiling(10 / 3);
+select 10 mod 3;
+select CEILING(sqrt(3));
+
+/* Funções matematicas
+CEILING() ARREDONDA PRA CIMA
+FLOOR() ARREDONDA PRA BAIXO
+PI() RETORNA O VALOR DE PI
+POW(X,Y) RETORNA X ELEVADO A Y
+SQRT()  RETORNA A RAIZ QUADRADA
+SIN() RETORNA O SENO DE UM NÚMERO DADO EM RADIANOS
+HEX() Retorna a representação hexadecimal de um valor decimal 
+
+*/
+	CREATE FUNCTION fn_teste ( valorA DECIMAL(10,2), ValorB INT) RETURNS INT
+    RETURN valorA * valorB;
+    
+    SELECT fn_teste(2.5,4) AS Resultado;
+
+
+-- Functions exercitando 
 
 
 
@@ -183,4 +252,11 @@ filmediretor order by diretor;
 
 
 
+
+
+
+
+
+
+-- Functions 
 

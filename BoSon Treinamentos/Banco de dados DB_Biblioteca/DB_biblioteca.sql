@@ -206,6 +206,7 @@ select Sum(preco_livro) from tbl_livro;
  select  sobreNome_autor as Last_nome from tbl_autores
  where ID_Autores between  1 and 3 ;
  
+ 
 select Nome_Livro as Nome,Preco_Livro as Preço from tbl_livro
 where Nome_Livro like 'J%';
 -- comando like pista nome do livro que começe com a letra J
@@ -285,6 +286,7 @@ from vendas
 where produto = 'WebCam'  
 group by cidade;
 
+
 create view vw_LivroAutores
 as select tbl_livro.nome_livro as Livro,
 tbl_autores.Nome_Autor as Autor
@@ -298,6 +300,8 @@ from vw_livroautores
 order by autor;
 -- Consultando o Views
 
+
+
 select * from tbl_livro
 inner join tbl_autores
 on tbl_livro.Id_autor = tbl_autores.ID_Autores;
@@ -309,11 +313,13 @@ left join tbl_livro
 on tbl_livro.Id_autor = tbl_autores.ID_Autores;
 -- consulta todos os dados de autores mesmo que não tenha conecxao com tbl_livro
 
+
 select * from tbl_autores
 left join tbl_livro
 on tbl_livro.Id_autor = tbl_autores.ID_Autores
 where tbl_livro.Id_autor is null;
 -- consulta nas tabela autores onde os autores não tem id na tabela livro
+
 
 select * from tbl_livro as li
 right join tbl_editoras as ed
@@ -706,6 +712,6 @@ SELECT Nome_Livro Livro , preco_livro preço, 'Preço Razoável' Resultado
 from tbl_livro
 where Preco_Livro < 60.00;
 
-Aula 57 3:30 minutos;
+
 
 
