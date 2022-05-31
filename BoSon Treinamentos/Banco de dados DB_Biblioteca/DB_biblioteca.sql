@@ -401,7 +401,7 @@ call VerPreço(3); -- o id do livro
 
 -- PELO NOME DA EDITORA PEGAR O NOME DO LIVRO SEM EDITAR NO ARMAZENAMENTO
 
-/*
+
 DELIMITER //
 create procedure editora_livro (IN editora VARCHAR(50))
 BEGIN
@@ -418,11 +418,11 @@ CALL editora_livro('shell');
 SET @minhaeditora = 'shell'; -- aperta as duas linhas pra criar depois só a segunda pra exercutar
 CALL editora_livro(@minhaeditora);
 
-*/
+select * from tbl_editoras;
 
  -- outro procedimento
  
- /* 
+
   DELIMITER // 
  create procedure aumenta_preco(IN codigo INT,taxa Decimal(10,2))
  BEGIN 
@@ -437,7 +437,7 @@ SET @aumento = 20; -- O QUANTO VAI AUMENTAR
 CALL aumenta_preco(@livro, @aumento); -- DEPOIS CLICA AQUI PRA CONSULTAR
 
 select * from tbl_livro where Id_livro = '4';
- */
+
 
 /*
 DELIMITER //
@@ -712,6 +712,12 @@ SELECT Nome_Livro Livro , preco_livro preço, 'Preço Razoável' Resultado
 from tbl_livro
 where Preco_Livro < 60.00;
 
+
+DELIMITER $$
+	 CREATE FUNCTION retorna(cTEXTO char(20))
+    RETURNS char(20)
+    RETURN concat('Olá',cTEXTO,'.Tudo Bem?')
+DELIMITER $$;
 
 
 

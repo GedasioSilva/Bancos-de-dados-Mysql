@@ -238,15 +238,56 @@ SIN() RETORNA O SENO DE UM NÚMERO DADO EM RADIANOS
 HEX() Retorna a representação hexadecimal de um valor decimal 
 
 */
-	CREATE FUNCTION fn_teste ( valorA DECIMAL(10,2), ValorB INT) RETURNS INT
-    RETURN valorA * valorB;
+	
+-- Store Procedures   
+    -- mostra o valor da bilheteria do filme concatenado com ' O faturamento foi';
+    CREATE procedure Renda (varfilme smallint)
+    select concat('O Faturamento foi ' , bilheteria) as Renda
+    from filme
+    where cod_filme = 1;
+
+	call renda(1);
     
-    SELECT fn_teste(2.5,4) AS Resultado;
+    drop procedure renda; -- pra apagar o procedure 
+    
+    -- Funçãoptimize
+    
+    DELIMITER $$
+    create function aumentar_preco  (preco Decimal(10,2),taxa decimal(10,2))
+    BEGIN
+		RETURN preco + preco * taxa /100;
+    END $$
+    DELIMITER ;
+    
+    select aumenta_preco(50.00 , 10.00) as resultado;
+   
+       DELIMITER // -- faz duas consultas 
+		create procedure verpreco (varbi smallint)
+        BEGIN
+			SELECT concat('Nova Bilheteria é', bilheteria) as Renda
+            from filme 
+            where cod_filme = varbi; -- nesse codigo executa o valor da bilheteria
+            select ' procedimento executado com sucesso !'; -- nesse codigo mostra essa frase intão é duas consultas
+		END//
+        DELIMITER ;
+        
+        CALL verpreco(1);
 
 
--- Functions exercitando 
 
+	Delimiter //
+    create procedure filme_diretor (in diretor smallint)
+    begin 
+		select F.Nome_filme ,D.diretor
+        FROM filme as F
+        INNER JOIN diretor as D
+        ON F.cod_diretor = cod_diretor
+        where d.cod_diretor = diretor;
+    end //
+    Delimiter ;
 
+call filme_diretor ('1');
+	
 
 
 
